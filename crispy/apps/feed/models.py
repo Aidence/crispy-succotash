@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import List, Dict
 
 import feedparser
-from django.contrib.postgres.fields.jsonb import JSONField
+
 from django.core.validators import URLValidator
 from django.db import models
 
@@ -44,7 +44,7 @@ class Feed(models.Model):
                                        verbose_name="Alternate title")
     site_url = models.TextField(blank=True, null=True, validators=[URLValidator()],
                                 help_text="URL of the feed's website", verbose_name="Site URL")
-    extra_data = JSONField(verbose_name="Extra data", db_index=True, null=True)
+    extra_data = models.JSONField(verbose_name="Extra data", db_index=True, null=True)
 
     # Manager
     objects = managers.FeedManager()

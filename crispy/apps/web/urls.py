@@ -32,8 +32,8 @@ urlpatterns = [
     path(r'feeds/', views.FeedListView.as_view(), name="feed_list"),
     path(r'feeds/my/', views.MyFeedListView.as_view(), name="my_feed_list"),
     path(r'feeds/bookmarked/', views.BookmarkedFeedsView.as_view(), name="bookmarked_feed_list"),
-    path(r'feeds/(?P<pk>[\d]+)', views.FeedDetailView.as_view(), name="feed_detail"),
-    path(r'feeds/(?P<pk>[\d]+)/toggle-bookmark/', views.ToggleBookmarkView.as_view(), name="toggle_feed_bookmark"),
-    path(r'feeds/(?P<pk>[\d]+)/update/', views.FeedUpdateView.as_view(), name="feed_update"),
-    path(r'feeds/(?P<pk>[\d]+)/entry/', views.EntryDetailView.as_view(), name="entry_detail"),
+    path(r'feeds/<int:pk>', views.FeedDetailView.as_view(), name="feed_detail"),
+    path(r'feeds/<int:pk>/toggle-bookmark/', views.ToggleBookmarkView.as_view(), name="toggle_feed_bookmark"),
+    path(r'feeds/<int:pk>/update/', views.FeedUpdateView.as_view(), name="feed_update"),
+    path(r'feeds/<int:pk>/entry/', views.EntryDetailView.as_view(), name="entry_detail"),
 ]

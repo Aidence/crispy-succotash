@@ -47,8 +47,9 @@ class EntryDetailView(ListView, DetailView):
         """
         # Sets object as get_context_data needs it
         self.object_list = self.get_queryset()
-
-        form = CommentForm(data=request.POST, user=request.user)
+        data = request.POST.dict()
+        data['entry'] = self.kwargs.get(self.pk_url_kwarg)
+        form = CommentForm(data=data, user=request.user)
 
         if form.is_valid():
             return self.form_valid(form)
