@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django.contrib.auth.models import User, AnonymousUser
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from crispy.apps.core.tests import BaseTestCase
 from crispy.apps.feed.models import Feed, Entry
@@ -22,7 +22,7 @@ class TestOtherViews(BaseTestCase):
         self._test_view_for_status_code('login')
 
     def test_logout(self):
-        self._test_view_for_status_code('logout', status_code=302)
+        self._test_view_for_status_code('logout', status_code=200)
 
 
 class TestFeedViews(BaseTestCase):

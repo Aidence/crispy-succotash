@@ -1,5 +1,5 @@
 # Crispy Succotash
-Crispy Succotash is an RSS feed scraper tool built for testing and hiring purposes.  
+Crispy Succotash is an RSS feed scraper tool built for testing and hiring purposes.
 
 It's a simple application which supports the following features:
 * User account creation and login
@@ -14,10 +14,10 @@ It's a simple application which supports the following features:
 2. Run it
 
   ```shell
-  docker-compose up
+  make up
   ```
-  
-That's it! :) The project will be available on port 8000 (http://localhost:8000). 
+
+That's it! :) The project will be available on port 8000 (http://localhost:8000).
 
 ## Running the tests
 
