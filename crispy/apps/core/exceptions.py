@@ -1,0 +1,2 @@
+class CrispyException(Exception):
+    pass

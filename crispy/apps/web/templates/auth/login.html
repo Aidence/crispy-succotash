@@ -1,0 +1,17 @@
+{% extends 'generic/form.html' %}
+{% load crispy_forms_tags %}
+{% block form_content %}
+<div class="panel-heading">
+    <h3 class="panel-title">Please Sign In</h3>
+</div>
+<div class="panel-body">
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <p class="bs-component">
+            <input class="btn btn-success btn-sm" type="submit" value="login"/>
+        </p>
+        <input type="hidden" name="next" value="{{ next }}"/>
+    </form>
+</div>
+{% endblock %}

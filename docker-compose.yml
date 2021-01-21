@@ -1,0 +1,46 @@
+version: '3.2'
+
+services:
+  worker:
+    build: .
+    links:
+      - db
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+    command:
+      sh worker.sh
+
+  app:
+    build: .
+    ports:
+        - "8000:8000"
+    links:
+        - db
+    volumes:
+        - .:/code
+    command:
+      bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    environment:
+      DJANGO_SETTINGS_MODULE: crispy.settings.docker
+    depends_on:
+      - db
+    tty: true
+    stdin_open: true
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: crispy
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+volumes:
+  postgres-volume:

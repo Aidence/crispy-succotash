@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags static  markdown_deux_tags humanize %}
+
+{% block title %}{{ entry }} | {{ block.super }}{% endblock %}
+{% block header %}<h1>{{ entry }}</h1>{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            <dl class="dl-horizontal">
+                <dt>Feed</dt>
+                <dd><a href="{% url 'feed_detail' pk=entry.feed.pk %}">{{ entry.feed }}</a></dd>
+                <dt>Author</dt>
+                <dd>{{ entry.author }}</dd>
+                <dt>URL</dt>
+                <dd><a href="{{ entry.url }}" target="_BLANK">{{ entry.url }}</a></dd>
+                <dt>Date added</dt>
+                <dd>{{ entry.date }}</dd>
+            </dl>
+        </div>
+        <div class="col-md-1 col-md-offset-1"></div>
+        <div class="col-md-3">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 well">
+            {{ entry.content|safe }}
+        </div>
+    </div>
+    <div class="row">
+        {% for comment in comment_list %}
+            <div class="row">
+                <div class="col-sm-1">
+                    {{ comment.user }}<br />
+                    {{ comment.date|naturaltime }}
+                </div>
+                <div class="col-sm-11">
+                    <div class="well well-sm" id="comment-{{ comment.id }}">
+                        {{ comment.content|markdown }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        {% include 'pieces/pagination.html' %}
+    </div>
+    <div class="row">
+        {% if request.user.is_authenticated %}
+            {% crispy comment_form %}
+        {% else %}
+            Sign in to comment
+        {% endif %}
+    </div>
+{% endblock %}
+{% block head %}<link rel="stylesheet" href="{% static 'css/vendor/simplemde.min.css' %}">{% endblock %}
+{% block footer %}
+    <script type="text/javascript" src="{% static 'js/vendor/simplemde.min.js' %}"></script>
+    <script type="text/javascript">
+        var simplemde = new SimpleMDE({
+            "element": document.getElementById('id_content')
+        });
+    </script>
+{% endblock %}

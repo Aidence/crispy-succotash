@@ -1,0 +1,100 @@
+{% load static  %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Crispy Succotash{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'css/vendor/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/vendor/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/vendor/freelancer.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/crispy.css' %}">
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{% url 'home' %}"><span class="glyphicon glyphicon-leaf"
+                                                                          aria-hidden="true"></span>Crispy Succotash</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="{% url 'feed_list' %}">All Feeds</a>
+                        </li>
+                        {% if request.user.is_authenticated %}
+                            <li><a href="{% url 'my_feed_list' %}">My Feeds</a></li>
+                            <li><a href="{% url 'bookmarked_feed_list' %}">Bookmarked</a></li>
+                        {% endif %}
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if request.user.is_authenticated %}
+                            <li>
+                                <a href="{% url 'new_feed' %}" class="btn btn-success">New Feed</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'logout' %}">Logout</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{% url 'login' %}">Login</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+        <header>
+            {% block header %}
+                <div class="row">
+                    <div class="col-lg-12">
+                        {% if not request.user.is_authenticated %}
+                            <div class="intro-text">
+                                <span class="name">TEST ME.</span>
+                                <hr class="star-light">
+                                <span class="skills">You won't regret it!</span>
+                                <span class="clear"></span>
+                                <p>
+                                    Also, register now:<br/>
+                                    <a class="btn btn-warning" href="{% url 'register' %}" role="button">Sign Up</a>
+                                </p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endblock %}
+        </header>
+        <!-- Page Content -->
+        <div class="container">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% block body %}
+            <div class="container">
+                {% block content %}
+                {% endblock %}
+                <!-- /.row -->
+            </div>
+        {% endblock %}
+        <!-- /.container -->
+        <script src="{% static 'js/vendor/jquery.min.js' %}"></script>
+        <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
+        {% block footer %}{% endblock %}
+    </body>
+</html>

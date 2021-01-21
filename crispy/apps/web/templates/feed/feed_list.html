@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}Feeds | {{ block.super }}{% endblock %}
+
+{% block header %}<h1>Feeds</h1>{% endblock %}
+
+{% block content %}
+    {% if object_list %}
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Last updated</th>
+                        <th>Feed URL</th>
+                        <th># Entries</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for feed in object_list %}
+                        <tr>
+                            <td><a href="{% url 'feed_detail' pk=feed.pk %}">{{ feed }}</a></td>
+                            <td>{{ feed.last_updated_at|naturaltime }}</td>
+                            <td>{{ feed.feed_url }}</td>
+                            <td>{{ feed.entries.count }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% include 'pieces/pagination.html' with view='feed_list' %}
+        </div>
+    {% else %}
+    Nothing to see here. Move on!
+    {% endif %}
+{% endblock %}

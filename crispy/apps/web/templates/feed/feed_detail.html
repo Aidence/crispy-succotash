@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Feeds | {{ block.super }}{% endblock %}
+{% block header %}<h1>{{ feed }}</h1>{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            <dl class="dl-horizontal">
+                <dt>Added by</dt>
+                <dd>{{ feed.added_by }}</dd>
+                <dt>Feed URL</dt>
+                <dd>{{ feed.feed_url }}</dd>
+                <dt>Date added</dt>
+                <dd>{{ feed.created_at }}</dd>
+                <dt>Last updated</dt>
+                <dd>{{ feed.last_updated_at }}</dd>
+                <dt>Last checked</dt>
+                <dd>{{ feed.last_checked_at }}</dd>
+            </dl>
+        </div>
+        <div class="col-md-4">
+            <p class="text-right">
+                <a href="{% url 'feed_update' feed.pk %}" class="btn btn-success">Check for updates</a>
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'toggle_feed_bookmark' feed.pk %}" class="">
+                        {% if has_bookmark %}
+                            <span class="glyphicon glyphicon-heart"></span>
+                        {% else %}
+                            <span class="glyphicon glyphicon-heart-empty"></span>
+                        {% endif %}
+                    </a>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-responsive">
+                {% for entry in feed.entries.all %}
+
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    {% if entry_list %}
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Author</th>
+                        <th># Comments</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in entry_list %}
+                        <tr>
+                            <td><a href="{% url 'entry_detail' pk=entry.pk %}">{{ entry }}</a></td>
+                            <td>{{ entry.date|naturaltime }}</td>
+                            <td>{{ entry.author }}</td>
+                            <td>{{ entry.comments.count }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% include 'pieces/pagination.html' %}
+    </div>
+    {% else %}
+        This feed has no entries.
+    {% endif %}
+{% endblock %}
