@@ -19,9 +19,13 @@ It's a simple application which supports the following features:
 
 That's it! :) The project will be available on port 8000 (http://localhost:8000).
 
-## Running the tests
+## Other commands
 
   ```shell
-  docker-compose run app bash
-  ./manage.py test
+  # build docker image
+  make build
+  # run tests
+  make test
+  # ssh into container
+  make ssh
   ```
